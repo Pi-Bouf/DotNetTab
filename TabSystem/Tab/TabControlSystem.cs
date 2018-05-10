@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using DotNetBrowser;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using TabSystem.Tab.UI;
+using System.Linq;
 
 namespace TabSystem.Tab
 {
     class TabControlSystem
     {
         private TabPane tabPane;
+        private TabToolbar tabToolbar;
         private Panel containerForTabSystem;
         private List<Tab> tabList;
 
@@ -15,18 +18,20 @@ namespace TabSystem.Tab
             this.containerForTabSystem = containerForTabSystem;
             this.tabList = new List<Tab>();
             this.createUI();
+
+            BrowserPreferences.SetChromiumSwitches("--enable-npapi");
         }
 
         private void createUI()
         {
+            this.tabToolbar = new TabToolbar(this);
             this.tabPane = new TabPane(this);
-            this.tabPane.Visible = false;
             this.containerForTabSystem.Controls.Add(this.tabPane);
         }
 
-        public void displayUI()
+        public TabToolbar getToolbar()
         {
-            this.tabPane.Visible = true;
+            return this.tabToolbar;
         }
 
         public void newTabRequest()
@@ -45,7 +50,7 @@ namespace TabSystem.Tab
         {
             tab.getTabCaption().setTabControlSystem(this);
             tabList.Add(tab);
-            this.tabPane.newTab(tab);
+            this.tabPane.addNewTab(tab);
             this.selectTabRequest(tab);
         }
 
@@ -56,12 +61,35 @@ namespace TabSystem.Tab
                 t.getTabContent().Visible = false;
             }
 
+            this.tabToolbar.setCurrentTab(tab);
             tab.getTabContent().Visible = true;
         }
 
         public void closeTabRequest(Tab tab)
         {
+            int index = tabList.IndexOf(tab);
+            if(tabList.Count > 1)
+            {
+                if(tabList.ElementAtOrDefault(index - 1) != null)
+                {
+                    this.selectTabRequest(tabList.ElementAt(index - 1));
+                } else if(tabList.ElementAtOrDefault(index + 1) != null)
+                {
+                    this.selectTabRequest(tabList.ElementAt(index + 1));
+                }
+            }
+
+            tabToolbar.disposeTab();
             tab.disposeTab();
+            tabList.Remove(tab);
+        }
+
+        public void disposeTabControlSystem()
+        {
+            foreach (Tab t in this.tabList)
+            {
+                t.disposeTab();
+            }
         }
     }
 }

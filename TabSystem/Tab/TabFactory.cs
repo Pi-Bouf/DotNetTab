@@ -4,7 +4,7 @@
     {
         public static Tab createNewTab()
         {
-            return generateTab("http://google.fr", "Google");
+            return generateTab("http://localhost", "Google");
         }
 
         public static Tab createNewTab(string url, string title)

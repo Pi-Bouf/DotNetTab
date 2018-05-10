@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Windows.Forms;
+using TabSystem.Tab;
 using TabSystem.Tab.UI;
 
 namespace TabSystem
 {
-    public partial class Form1 : Form
+    public partial class FormMain : Form
     {
-        public Form1()
+        private TabControlSystem tabControlSystem = null;
+        public FormMain()
         {
             InitializeComponent();
         }
@@ -17,14 +19,12 @@ namespace TabSystem
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            TabToolbarLayout toolbar = new TabToolbarLayout();
+            this.tabControlSystem = new TabControlSystem(this.panelTest);
+        }
 
-            this.panelForTest.Controls.Add(toolbar);
-
-            /*
-            TabControlSystem tabControlSystem = new TabControlSystem(this.panelTest);
-            tabControlSystem.displayUI();
-            */
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.tabControlSystem.disposeTabControlSystem();
         }
     }
 }

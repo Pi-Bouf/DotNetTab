@@ -16,11 +16,12 @@ namespace TabSystem.Tab.UI
         // -- TextBoxURL
         #endregion
 
-        private ImageButton previousButton { get; set; }
-        private ImageButton nextButton { get; set; }
-        private ImageButton refreshButton { get; set; }
-        private ImageButton homeButton { get; set; }
-        private BunifuMetroTextbox textBoxURL { get; set; }
+        private Tab tab = null;
+        public ImageButton previousButton { get; set; }
+        public ImageButton nextButton { get; set; }
+        public ImageButton refreshButton { get; set; }
+        public ImageButton homeButton { get; set; }
+        public BunifuMetroTextbox textBoxURL { get; set; }
 
         public TabToolbarLayout()
         {
@@ -41,7 +42,9 @@ namespace TabSystem.Tab.UI
             this.RowCount = 1;
             this.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.Size = new Size(this.Size.Width, 32);
+            this.Margin = this.Padding = new Padding(0);
 
+            // Adding other components
             this.previousButton = this.createNavigationButtonFromRessource(Resources.PagePrevious);
             this.Controls.Add(this.previousButton, 0, 0);
 
@@ -80,7 +83,6 @@ namespace TabSystem.Tab.UI
             textBox.Font = new Font("Tahoma", 11F);
             textBox.ForeColor = Color.White;
             textBox.Margin = new Padding(0);
-            textBox.Text = "http://facebook.com (delete)";
 
             return textBox;
         }

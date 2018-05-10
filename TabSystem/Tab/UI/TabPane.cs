@@ -19,8 +19,10 @@ namespace TabSystem.Tab.UI
         {
             // Main style
             this.ColumnCount = 1;
-            this.RowCount = 3;
+            this.RowCount = 4;
             this.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
+            this.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 2F));
+            this.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.Dock = DockStyle.Fill;
             this.Location = new System.Drawing.Point(0, 0);
             this.Padding = this.Margin = new Padding(0);
@@ -41,10 +43,11 @@ namespace TabSystem.Tab.UI
             this.tabCaptionsContainer = new TabCaptionsContainer(this.tabControlSystem);
             this.Controls.Add(this.tabCaptionsContainer, 0, 0);
             this.Controls.Add(borderBottom, 0, 1);
-            this.Controls.Add(this.tabContentContainer, 0, 2);
+            this.Controls.Add(this.tabControlSystem.getToolbar().GetTabToolbarLayout(), 0, 2);
+            this.Controls.Add(this.tabContentContainer, 0, 3);
         }
 
-        public void newTab(Tab tab)
+        public void addNewTab(Tab tab)
         {
             this.tabCaptionsContainer.newTab(tab);
             this.tabContentContainer.Controls.Add(tab.getTabContent(), 0, 2);
